@@ -1,0 +1,9 @@
+CACHE MANIFEST
+# Version 1
+
+CACHE:
+bower_components/*
+custom_components/*
+
+NETWORK:
+*
