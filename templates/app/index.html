@@ -58,7 +58,7 @@
         <div id="item-content" style="text-align: center;">
           <h4 ng-class='{complete:item.fields.completed}'>{{ item.fields.name }}</h4>
           <br/>
-          <p>{{ item.fields.description }}</p>
+          <p ng-class='{complete:item.fields.completed}'>{{ item.fields.description }}</p>
           <br/>
           <paper-checkbox ng-click="toggleCompleted(item.fields.completed, this)" label="Completed?" complete-check></paper-checkbox>
           <br/>
