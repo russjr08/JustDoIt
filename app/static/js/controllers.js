@@ -98,6 +98,7 @@ myApp.controller('HomeController', function($scope, $filter) {
         if(data.message === "Item deleted.") {
           console.log("API claims Task deleted successfully.");
           $scope.refreshItems();
+          document.querySelector('#removal-toast').show();
         } else {
           alert("Error deleting Task!");
         }

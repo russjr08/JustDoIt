@@ -46,7 +46,7 @@
 {% verbatim %}
 <body id="page-body" unresolved ng-controller="HomeController">
   <core-toolbar id="toolbar">
-    <paper-icon-button icon="menu"></paper-icon-button>
+    <!--<paper-icon-button icon="menu"></paper-icon-button>-->
     <span flex>JustDoIt!</span>
     <paper-fab icon="add" onclick="addItem()"></paper-fab>
   </core-toolbar>
@@ -92,6 +92,7 @@
   </section>
 
   <paper-toast id='update-toast' text='Task Updated Successfully.'></paper-toast>
+  <paper-toast id='removal-toast' text='Task Removed Successfully.'></paper-toast>
 </body>
 {% endverbatim %}
 <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
