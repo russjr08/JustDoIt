@@ -36,6 +36,7 @@ core-toolbar {
 paper-button {
   margin: 0.5em 1em 0.5em 0;
   width: 10em;
+  margin-left: 1em;
 }
 
 paper-button[right] {
@@ -44,7 +45,7 @@ paper-button[right] {
 }
 
 paper-checkbox {
-  margin-left: 1em;
+  /*margin-left: 1em;*/
 }
 
 paper-fab {
@@ -69,6 +70,13 @@ paper-tabs[noink][nobar] paper-tab.core-selected {
 
 .complete {
   text-decoration: line-through;
+}
+
+.completedcard {
+  background-color: #263238;
+  color: #FFFFFF;
+}
+.completedcard p {
 }
 
 

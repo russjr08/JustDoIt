@@ -1,6 +1,6 @@
 var myApp = angular.module('myApp', []);
 
-myApp.controller('HomeController', function($scope) {
+myApp.controller('HomeController', function($scope, $filter) {
   $scope.items = [];
 
   $scope.toggleCompleted = function(completed, element) {
@@ -18,6 +18,7 @@ myApp.controller('HomeController', function($scope) {
       success: function(data) {
         console.log("Item updated successfully!");
         document.querySelector('#update-toast').show();
+        $scope.refreshItems();
       }
     });
 
@@ -35,7 +36,9 @@ myApp.controller('HomeController', function($scope) {
       type: "POST",
       success: function(data) {
         $scope.$apply(function() {
-          $scope.items = data;
+          var orderBy = $filter('orderBy');
+          // $scope.items = data;
+          $scope.items = orderBy(data, "fields.completed", false)
         });
         window.items = data;
       },
@@ -66,6 +69,8 @@ myApp.controller('HomeController', function($scope) {
       type: "POST",
       success: function(data) {
         console.log("API returned success on adding Task.");
+        $("#name").val("");
+        $("#description").val("");
         $scope.refreshItems();
       },
       error: function(data) {
