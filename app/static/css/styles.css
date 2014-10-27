@@ -14,7 +14,7 @@ body {
 
 md-card {
   background-color: #FFFFFF;
-  width: 90%;
+  width: 800px;
 }
 
 section {
@@ -86,4 +86,10 @@ paper-tabs[noink][nobar] paper-tab.core-selected {
     z-index: 50;
     top: 0;
     width: 100%
+}
+
+@media only screen and (max-device-width: 480px) {
+  md-card {
+    width: 100%;
+  }
 }
