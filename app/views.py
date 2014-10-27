@@ -29,6 +29,9 @@ def get_user_uuid(username):
 def index(request):
     return render(request, 'app/index.html')
 
+def demo(request):
+    return render(request, 'app/demo.html')
+
 # API methods
 
 # /api/items/

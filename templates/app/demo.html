@@ -1,0 +1,112 @@
+{% load staticfiles %}
+<!doctype html>
+
+<html ng-app="myApp" manifest="static/justdoit.appcache">
+<head>
+  <title>JustDoIt!</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <!--<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />-->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
+
+  <script src="{% static "bower_components/platform/platform.js" %}"></script>
+
+  <script src="{% static "js/jquery.cookie.js" %}"></script>
+  <script src="{% static "js/AuthLib.js" %}"></script>
+
+  <script src="{% static "js/controllers-demo.js" %}"></script>
+
+  <link rel="import" href="{% static "bower_components/core-icons/core-icons.html" %}">
+  <link rel="import" href="{% static "bower_components/core-toolbar/core-toolbar.html" %}">
+  <link rel="import" href="{% static "bower_components/font-roboto/roboto.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-button/paper-button.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-input/paper-input.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-checkbox/paper-checkbox.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-icon-button/paper-icon-button.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-fab/paper-fab.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-tabs/paper-tabs.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-toast/paper-toast.html" %}">
+  <link rel="import" href="{% static "bower_components/paper-dialog/paper-dialog.html" %}">
+
+  <script src="{% static "bower_components/angular/angular.js" %}"></script>
+    <script src="{% static "bower_components/angular-aria/angular-aria.js" %}"></script>
+    <script src="{% static "bower_components/angular-animate/angular-animate.js" %}"></script>
+    <script src="{% static "bower_components/hammerjs/hammer.js" %}"></script>
+    <script src="{% static "bower_components/angular-material/angular-material.js" %}"></script>
+
+  <link rel="stylesheet" href="{% static "bower_components/angular-material/angular-material.css" %}">
+
+
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+</head>
+{% verbatim %}
+<body id="page-body" unresolved ng-controller="HomeController">
+  <core-toolbar id="toolbar">
+    <!--<paper-icon-button icon="menu"></paper-icon-button>-->
+    <span flex>JustDoIt!</span>
+    <paper-fab icon="add" onclick="addItem()"></paper-fab>
+  </core-toolbar>
+
+  <section>
+    <br/>
+    <br/>
+    <br/>
+    <h2 style="text-align: center;" ng-show="items.length == 0">You're all clear! Press the + button to start.</h2>
+    <md-card id="demo-card">
+    
+        <div style="text-align: center;">
+        
+            <h4>Warning: Demo!</h4>
+            <p>Just a fair warning, you're viewing the demo version of this app, which was made in like 30 minutes. It's a bit glitchy...
+            to view the full version, <a href="http://tasks.kronosad.com">click here!</a></p>
+
+        </div>
+
+    </md-card>
+    <div id="item-view" ng-repeat="item in items">
+      <md-card id="item-card" style="margin-left: auto; margin-right: auto;" ng-class='{completedcard:item.fields.completed}'>
+        <div id="item-id" style="text-align: left; color: grey;">#{{ item.pk }}</div>
+        <div id="item-content" style="text-align: center;">
+          <h4 ng-class='{complete:item.fields.completed}'>{{ item.fields.name }}</h4>
+          <p ng-class='{complete:item.fields.completed}'>{{ item.fields.description }}</p>
+          <br/>
+          <paper-checkbox ng-click="toggleCompleted(item.fields.completed, this)" label="Completed?" complete-check></paper-checkbox>
+          <br/>
+          <paper-button ng-show='item.fields.completed == true' label="Delete" ng-click="deleteItem(item.pk)">Delete</paper-button>
+          <br/>
+          <br/>
+        </div>
+      </md-card>
+      <!-- // <script>
+      //   if(window.innerWidth < 400) {
+      //     $("#item-card").css({width: window.innerWidth - 30});
+      //   } else {
+      //     $("#item-card").css({width: 800});
+      //   }
+      // </script> -->
+    </div>
+  </section>
+
+  <section>
+    <paper-dialog transition="paper-dialog-transition-bottom" id="add-dialog" heading='Add Task'>
+          <h3>Great! Let's collect some information.</h3>
+          <br/>
+          <paper-input floatingLabel=true type="text" id="name" label="Name..."></paper-input>
+          <br/>
+          <paper-input style="height: 150px;" multiline layout vertical floatingLabel=true rows="4" id="description" label="Description..."></paper-input>
+          <paper-button affirmative>Decline</paper-button>
+          <paper-button affirmative autofocus ng-click="addItem()">Accept</paper-button>
+    </paper-dialog>
+  </section>
+
+  <paper-toast id='update-toast' text='Task Updated Successfully.'></paper-toast>
+  <paper-toast id='removal-toast' text='Task Removed Successfully.'></paper-toast>
+</body>
+{% endverbatim %}
+<script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+</html>
+

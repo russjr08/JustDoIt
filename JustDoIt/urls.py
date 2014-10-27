@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', 'app.views.index'),
+    url(r'^demo/$', 'app.views.demo'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'api/items/$', 'app.views.api_get_items'),
     url(r'api/items/add/$', 'app.views.api_add_item'),
