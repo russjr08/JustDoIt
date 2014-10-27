@@ -42,6 +42,9 @@ myApp.controller('HomeController', function($scope) {
       error: function(data) {
         if(data.responseJSON.message === "No Items found.") {
           console.log("API claims no items were found.");
+          $scope.$apply(function() {
+            $scope.items = [];
+          });
         } else {
           console.error("Could not successfully query the API!");
         }
