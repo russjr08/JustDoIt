@@ -34,6 +34,20 @@ md-card {
     margin-right: auto;
 }
 
+.task-red {
+    background-color: #e84e40;
+
+}
+
+.task-blue {
+
+    background-color: #5677fc
+}
+
+.task-green {
+    background-color: #72d572;
+}
+
 section {
   margin: 20px;
 }

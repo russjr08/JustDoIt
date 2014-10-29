@@ -58,6 +58,7 @@ def api_add_item(request):
     name = request.POST.get('name')
     description = request.POST.get('description', 'NONE')
     completed = request.POST.get('completed', False)
+    color = request.POST.get('color', 'default')
     print("Name of item: " + name)
     if login(username, token):
         if not name:
@@ -68,6 +69,7 @@ def api_add_item(request):
         item.name = name
         item.description = description
         item.completed = completed
+        item.color = color
         item.save()
         return HttpResponse(json.dumps({'message': 'Item saved.'}), content_type="application/json", status=200)
     else:
