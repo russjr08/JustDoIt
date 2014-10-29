@@ -78,6 +78,7 @@ myApp.controller('HomeController', function($scope, $filter) {
           console.log("API claims no Tasks were found.");
         } else {
           console.error("Could not successfully query the API!");
+          document.querySelector('#failure-toast').show();
         }
       }
     });

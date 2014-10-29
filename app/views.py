@@ -55,10 +55,13 @@ def api_add_item(request):
     username = request.POST.get('username', 'NONE')
     token = request.POST.get('token', 'NONE')
 
-    name = request.POST.get('name', 'NONE')
+    name = request.POST.get('name')
     description = request.POST.get('description', 'NONE')
     completed = request.POST.get('completed', False)
+    print("Name of item: " + name)
     if login(username, token):
+        if not name:
+            return HttpResponse(json.dumps({'message': 'Missing fields!'}), content_type="application/json", status=500)
         owner = get_user_uuid(username)
         item = ToDoItem()
         item.owner = owner
@@ -66,7 +69,7 @@ def api_add_item(request):
         item.description = description
         item.completed = completed
         item.save()
-        return HttpResponse(json.dumps({'message': 'Item saved.'}))
+        return HttpResponse(json.dumps({'message': 'Item saved.'}), content_type="application/json", status=200)
     else:
         return HttpResposne(json.dumps({'message': 'Authentication Server rejected token.'}), content_type="application/json", status=501)
 
