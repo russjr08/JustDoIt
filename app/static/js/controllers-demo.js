@@ -19,8 +19,8 @@ myApp.controller('HomeController', function($scope, $filter) {
   $scope.refreshItems = function() {
     $scope.items[0] = {
         "fields": {
-            "name": "Test Item #0",
-            "description": "I am a test card!",
+            "name": "Hello and welcome!",
+            "description": "Each individual task is represented by a 'card'.",
             "completed": false
         },
         "pk": 0
@@ -28,8 +28,8 @@ myApp.controller('HomeController', function($scope, $filter) {
 
     $scope.items[1] = {
         "fields": {
-            "name": "Test Item #1",
-            "description": "I am a test card!",
+            "name": "This is just a demo...",
+            "description": "Each card shows all the possible details of your Task in a nice format.",
             "completed": false
         },
         "pk": 1
@@ -38,31 +38,12 @@ myApp.controller('HomeController', function($scope, $filter) {
 
     $scope.items[2] = {
         "fields": {
-            "name": "Test Item #2",
-            "description": "I am a test card!",
-            "completed": false
+            "name": "Completed cards...",
+            "description": "Completed cards have a separate background from other cards so you can easily distinguish the two!",
+            "completed": true
         },
         "pk": 2
     }
-
-    $scope.items[3] = {
-        "fields": {
-            "name": "Test Item #3",
-            "description": "I am a test card!",
-            "completed": false
-        },
-        "pk": 3
-    }
-
-    $scope.items[4] = {
-        "fields": {
-            "name": "Test Item #4",
-            "description": "I am a test card!",
-            "completed": false
-        },
-        "pk": 4
-    }
-
   };
 
   $scope.addItem = function() {
