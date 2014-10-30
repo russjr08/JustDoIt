@@ -69,13 +69,14 @@ myApp.controller('HomeController', function($scope, $filter) {
       $scope.items[$scope.items.length - 1] = {
           "fields": {
               "name": $("#name").val(),
-              "description": $("description").val(),
+              "description": $("#description").val(),
               "completed": false
           },
           "pk": $scope.items.length - 1
       }
       $("#name").val("");
       $("#description").val("");
+      debugger;
   };
 
   $scope.deleteItem = function(pk) {
