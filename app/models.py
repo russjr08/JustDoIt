@@ -13,3 +13,4 @@ class ToDoItem(models.Model):
     owner = models.CharField(max_length=60)  # This will be the user's UUID
     completed = models.BooleanField(default=False)  # Is this item completed yet?
     color = models.CharField(max_length=10, default="default") # Color of the Task.
+    category = models.CharField(max_length=10, default="") # Category of the Task.

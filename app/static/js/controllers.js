@@ -3,6 +3,9 @@ var myApp = angular.module('myApp', []);
 myApp.controller('HomeController', function($scope, $filter) {
     $scope.items = [];
 
+    $scope.categories = [];
+    
+    
     $scope.toggleCompleted = function(completed, element) {
         AuthLib.checkTokens();
         element.item.fields.completed = !completed;
@@ -24,9 +27,24 @@ myApp.controller('HomeController', function($scope, $filter) {
 
     };
 
+    $scope.sort = function(category) {
+        $scope.items.forEach(function(item) {
+            if(category) {
+                if(item.fields.category === category) {
+                    item.hidden = false;
+                }else {
+                    item.hidden = true;
+                }
+            } else {
+                item.hidden = false;
+            }
+            
+        });
+    };
 
     $scope.refreshItems = function() {
         AuthLib.checkTokens();
+        $scope.categories = [];
         $.ajax({
             url: "/api/items/",
             data: {
@@ -39,6 +57,13 @@ myApp.controller('HomeController', function($scope, $filter) {
                     var orderBy = $filter('orderBy');
                     // $scope.items = data;
                     $scope.items = orderBy(data, "fields.completed", false)
+                    $scope.items.forEach(function(item){
+                        if(item.fields.category){
+                            if($scope.categories.indexOf(item.fields.category) == -1 ){
+                                $scope.categories.push({name: item.fields.category});
+                            }
+                        }
+                    });
                 });
                 window.items = data;
             },
@@ -66,13 +91,15 @@ myApp.controller('HomeController', function($scope, $filter) {
             token: $.cookie('auth-token'),
             name: $("#name").val(),
             description: $("#description").val(),
-            color: document.getElementById('colorchoice').selected
+            color: document.getElementById('colorchoice').selected,
+            category: $("#category").val()
             },
             type: "POST",
             success: function(data) {
                 console.log("API returned success on adding Task.");
                 $("#name").val("");
                 $("#description").val("");
+                $("#category").val("");
                 $scope.refreshItems();
             },
             error: function(data) {
