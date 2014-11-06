@@ -72,9 +72,10 @@
     <h2 style="text-align: center;" ng-show="items.length == 0">You're all clear! Press the + button to start.</h2>
     <div id="item-view" ng-repeat="item in items">
       <md-card id="item-card" style="margin-left: auto; margin-right: auto;" ng-class="{completedcard:item.fields.completed, 'task-red': item.fields.color=='red', 'task-blue': item.fields.color=='blue', 'task-green': item.fields.color=='green'}" ng-hide="item.hidden == true">
-        <div id="item-id" style="text-align: left; color: grey;">#{{ item.pk }}</div>
+      <div id="item-id" style="text-align: left; vertical-align: top; font-size: 14px; color: #424242;">#{{ item.pk }} <span>{{ item.fields.category }}</span></div>
+      
         <div id="item-content" style="text-align: center;">
-          <h4 ng-class='{complete:item.fields.completed}'>{{ item.fields.name }}</h4>
+          <h3 ng-class='{complete:item.fields.completed}'>{{ item.fields.name }}</h3>
           <p ng-class='{complete:item.fields.completed}'>{{ item.fields.description }}</p>
           <br/>
           <paper-checkbox ng-click="toggleCompleted(item.fields.completed, this)" label="Completed?" complete-check></paper-checkbox>
