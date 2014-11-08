@@ -60,7 +60,8 @@ myApp.controller('HomeController', function($scope, $filter) {
                     $scope.items.forEach(function(item){
                         if(item.fields.category){
                             if($scope.categories.indexOf(item.fields.category) == -1 ){
-                                $scope.categories.push({name: item.fields.category});
+                                $scope.categories.push(item.fields.category);
+                                console.log("Added category: " + item.fields.category);
                             }
                         }
                     });

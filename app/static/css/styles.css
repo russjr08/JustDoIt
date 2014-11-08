@@ -16,6 +16,11 @@ body {
   -webkit-touch-callout: none;
 }
 
+.category {
+    white-space: initial;
+    width: 115px;
+}
+
 #page-body {
     background-color: #607d8b
 }
