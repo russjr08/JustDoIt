@@ -8,6 +8,9 @@ myApp.controller('HomeController', function($scope, $filter) {
     $scope.modifying = {};
 
     $scope.getColorFromItem = function(item) {
+        if(item.fields.completed) {
+            return 'completedcard task-' + item.fields.color;
+        }
         return 'task-' + item.fields.color;
 
     };
@@ -93,8 +96,7 @@ myApp.controller('HomeController', function($scope, $filter) {
             success: function(data) {
                 $scope.$apply(function() {
                     var orderBy = $filter('orderBy');
-                    // $scope.items = data;
-                    $scope.items = orderBy(data, "fields.completed", false)
+                    $scope.items = data;
                     $scope.items.forEach(function(item){
                         if(item.fields.category){
                             if($scope.categories.indexOf(item.fields.category) == -1 ){
