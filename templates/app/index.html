@@ -80,8 +80,8 @@
           <br/>
           <paper-checkbox ng-click="toggleCompleted(item.fields.completed, this)" label="Completed?" complete-check></paper-checkbox>
           <br/>
+          <paper-button label='Modify' ng-click='showItem(item)'>Modify</paper-button>
           <paper-button ng-show='item.fields.completed == true' label="Delete" ng-click="deleteItem(item.pk)">Delete</paper-button>
-          <br/>
           <br/>
         </div>
       </md-card>
@@ -113,6 +113,24 @@
           </paper-dropdown-menu> 
           <paper-button affirmative onclick="this.toggle()">Decline</paper-button>
           <paper-button affirmative autofocus ng-click="addItem()">Accept</paper-button>
+    </paper-dialog>
+    <paper-dialog transition="paper-dialog-transition-bottom" id="modify-dialog" heading='Modify Task'>
+          <h3>Great! Let's collect some information.</h3>
+          <br/>
+          <paper-input floatingLabel=true type="text" id="modify-name" label="Name..."></paper-input>
+          <br/>
+          <paper-input multiline layout vertical floatingLabel=true rows="4" id="modify-description" label="Description..."></paper-input>
+          <br/>
+          <paper-input id="modify-category" label="Category..." floatingLabel=true></paper-input>
+          <br/>
+          Card Color: &nbsp &nbsp  <paper-dropdown-menu label="Card Color:" id="modify-colorchoice" selected="Default" valueattr="label">
+          <paper-item label="Default"></paper-item>
+          <paper-item label="red"></paper-item>
+          <paper-item label="green"></paper-item>
+          <paper-item label="blue"></paper-item>
+          </paper-dropdown-menu> 
+          <paper-button affirmative onclick="this.toggle()">Decline</paper-button>
+          <paper-button affirmative autofocus ng-click="modifyItem()">Accept</paper-button>
     </paper-dialog>
   </section>
 

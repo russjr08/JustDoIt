@@ -5,7 +5,40 @@ myApp.controller('HomeController', function($scope, $filter) {
 
     $scope.categories = [];
     
+    $scope.modifying = {};
+
+    $scope.showItem = function(item) {
+        document.querySelector('#modify-dialog').toggle();
+        $("#modify-name").val(item.fields.name);
+        $("#modify-description").val(item.fields.description);
+        $("#modify-category").val(item.fields.category);
+        $scope.modifying = item;
+    }
     
+    $scope.modifyItem = function() {
+       AuthLib.checkTokens();
+
+        $.ajax({
+            url: 'api/items/modify/',
+            type: 'POST',
+            data: {
+                username: $.cookie('auth-username'),
+            token: $.cookie('auth-token'),
+            pk: $scope.modifying.pk,
+            name: $("#modify-name").val(),
+            description: $("#modify-description").val(),
+            category: $("#modify-category").val(),
+            color: document.getElementById('modify-colorchoice').selected,
+            },
+            success: function(data) {
+                console.log("Item updated successfully!");
+                document.querySelector('#update-toast').show();
+                $scope.refreshItems();
+            }
+        });
+    
+    }
+
     $scope.toggleCompleted = function(completed, element) {
         AuthLib.checkTokens();
         element.item.fields.completed = !completed;

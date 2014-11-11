@@ -101,6 +101,12 @@ def api_modify_item(request):
                         else:
                             i.completed = False;
                         i.save()
+                    if request.POST.get('category'):
+                        i.category = request.POST.get('category')
+                        i.save()
+                    if request.POST.get('color'):
+                        i.color = request.POST.get('color')
+                        i.save()
                     return HttpResponse(json.dumps({'message': 'Item saved.'}), content_type="application/json", status=200)
                 else:
                     return HttpResponse(json.dumps({'message': 'No item found with that pk'}), content_type="application/json", status=403)
