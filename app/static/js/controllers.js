@@ -7,13 +7,18 @@ myApp.controller('HomeController', function($scope, $filter) {
     
     $scope.modifying = {};
 
+    $scope.getColorFromItem = function(item) {
+        return 'task-' + item.fields.color;
+
+    };
+
     $scope.showItem = function(item) {
         document.querySelector('#modify-dialog').toggle();
         $("#modify-name").val(item.fields.name);
         $("#modify-description").val(item.fields.description);
         $("#modify-category").val(item.fields.category);
         $scope.modifying = item;
-    }
+    };
     
     $scope.modifyItem = function() {
        AuthLib.checkTokens();
@@ -37,7 +42,7 @@ myApp.controller('HomeController', function($scope, $filter) {
             }
         });
     
-    }
+    };
 
     $scope.toggleCompleted = function(completed, element) {
         AuthLib.checkTokens();
