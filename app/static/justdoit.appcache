@@ -1,9 +1,43 @@
 CACHE MANIFEST
-# Version 1
+# Version 1.1
 
 CACHE:
-bower_components/*
-custom_components/*
+/static/bower_components/core-toolbar/core-toolbar.css
+/static/bower_components/paper-shadow/paper-shadow.css
+/static/bower_components/paper-input/paper-input-decorator.css
+/static/bower_components/paper-radio-button/paper-radio-button.css
+/static/bower_components/paper-checkbox/paper-checkbox.css
+/static/bower_components/paper-tabs/paper-tab.css
+/static/bower_components/paper-tabs/paper-tabs.css
+/static/bower_components/core-transition/core-transition-overlay.css
+/static/bower_components/paper-toast/paper-toast.css
+/static/bower_components/paper-dialog/paper-dialog.css
+/static/bower_components/angular-material/angular-material.css
+
+/static/bower_components/core-icons/core-icons.html
+/static/bower_components/core-toolbar/core-toolbar.html
+/static/bower_components/font-roboto/roboto.html
+/static/bower_components/paper-button/paper-button.html
+/static/bower_components/paper-input/paper-input.html
+/static/bower_components/paper-checkbox/paper-checkbox.html
+/static/bower_components/paper-icon-button/paper-icon-button.html
+/static/bower_components/paper-fab/paper-fab.html
+/static/bower_components/paper-tabs/paper-tabs.html
+/static/bower_components/paper-toast/paper-toast.html
+/static/bower_components/paper-dialog/paper-dialog.html
+/static/bower_components/paper-item/paper-item.html
+/static/bower_components/paper-dropdown-menu/paper-dropdown-menu.html
+
+/static/bower_components/angular/angular.js
+/static/bower_components/angular-aria/angular-aria.js
+/static/bower_components/angular-animate/angular-animate.js
+/static/bower_components/hammerjs/hammer.js
+/static/bower_components/angular-material/angular-material.js
+
+/static/js/jquery.cookie.js
+/static/js/AuthLib.js
+
+/static/favicon.png
 
 NETWORK:
 *
