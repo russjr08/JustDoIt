@@ -106,9 +106,9 @@ myApp.controller('HomeController', function($scope, $filter) {
                             }
                         }
                     });
+                $scope.sort($scope.category);
                 });
                 window.items = data;
-                $scope.sort($scope.category);
             },
             error: function(data) {
                 if(data.responseJSON.message === "No Items found.") {
