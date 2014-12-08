@@ -69,6 +69,7 @@ myApp.controller('HomeController', function($scope, $filter) {
     };
 
     $scope.sort = function(category) {
+        $scope.category = category;
         $scope.items.forEach(function(item) {
             if(category) {
                 if(item.fields.category === category) {
@@ -107,6 +108,7 @@ myApp.controller('HomeController', function($scope, $filter) {
                     });
                 });
                 window.items = data;
+                $scope.sort($scope.category);
             },
             error: function(data) {
                 if(data.responseJSON.message === "No Items found.") {
