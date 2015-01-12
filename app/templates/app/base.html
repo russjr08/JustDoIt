@@ -1,0 +1,69 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <link rel="icon" href="{% static 'favicon.png' %}">
+
+
+    <!-- Begin Bootstrap import -->
+    <link rel="stylesheet" href="{% static 'style/bootstrap.min.css' %}">
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <!-- End Bootstrap import -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#F5F5F5">
+    <title>{% block title %}{% endblock %} - JustDoIt</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+               </button>
+
+                <a class="navbar-brand" href="{% url 'index' %}">JustDoIt!</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'tasks' %}">Task List</a></li>
+                    {% block links %}{% endblock %}
+                </ul>
+
+                {% if user.is_authenticated %}
+                    <div class="navbar-right">
+                        <button type="button" class="btn btn-danger navbar-btn navbar-nav" onclick="window.location='{% url 'logout' %}'">Log Out</button>
+                        <p class="navbar-text nav navbar-nav">Signed in as {{ user.username }}</p>
+                    </div>
+                {% else %}
+                    <div class="navbar-right">
+                        <button type="button" class="btn btn-default navbar-btn navbar-nav" onclick="window.location='{% url 'login' %}'">Sign In</button>
+                        <p class="navbar-text nav navbar-nav"><em>Logged Out</em></p>
+                    </div>
+                {% endif %}
+
+
+            </div>
+
+        </div>
+    </nav>
+
+    <div id="content" class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

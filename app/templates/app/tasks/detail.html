@@ -1,0 +1,41 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Task #{{ task.pk }}{% endblock %}
+
+{% block content %}
+
+    <ol class="breadcrumb">
+        <li><a href="{% url 'tasks' %}">Tasks</a></li>
+        <li>Modify</li>
+        <li>{{ task.pk }}</li>
+    </ol>
+
+    <h2>Task #{{ task.pk }}</h2>
+    <hr/>
+    <h3>Task Name: </h3> <p>{{ task.name }}</p>
+    <h3>Task Description: </h3> <p>{{ task.description }}</p>
+
+    <form action="{% url 'task_detail' task.pk %}" method="post">
+        {% csrf_token %}
+        <input type='hidden' value='off' name='completed'>
+
+        <h3>Task Completion: </h3> <label for="completed">{% if task.completed %} Done! {% else %} Not Finished...{% endif %} </label><br/>
+        <input id="completed" type="checkbox" name="completed" {% if task.completed %} checked {% endif %}/>
+        <br/>
+        <br/>
+
+        <div class="form-group">
+            <label for="color">Task Color:</label>
+            <select name="color" id="color" class="form-control">
+                <option value="default" {% if task.color == 'default' %} selected {% endif %}>Default</option>
+                <option value="danger" {% if task.color == 'danger' %} selected {% endif %}>Red</option>
+                <option value="success" {% if task.color == 'success' %} selected {% endif %}>Green</option>
+                <option value="info" {% if task.color == 'info' %} selected {% endif %}>Blue</option>
+                <option value="warning" {% if task.color == 'warning' %} selected {% endif %}>Yellow</option>
+            </select>
+        </div>
+
+        <br/>
+        <button type="submit" class="btn btn-success">Update!</button>
+    </form>
+{% endblock %}

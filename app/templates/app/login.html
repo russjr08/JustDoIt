@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+
+    <h3>Welcome back! Please login using your <a href="http://auth.kronosad.com/">KronosAuth</a> credentials.</h3>
+    <div class="text-danger"><h4>{{ state }}</h4></div>
+    <br/>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+
+        <div class="form-group">
+           <label for="username">Username:</label>
+           <input type="text" class="form-control" name="username" value="{{ username }}" placeholder="Enter your Username"/><br/>
+        </div>
+
+        <div class="form-group">
+           <label for="password">Password:</label>
+           <input type="password" class="form-control" name="password" value="" placeholder="Enter your Password"/><br/>
+        </div>
+
+
+        <button type="submit" class="btn btn-success">Log In!</button>
+
+    </form>
+
+
+{% endblock %}

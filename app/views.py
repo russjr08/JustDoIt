@@ -1,140 +1,109 @@
-from django.core import serializers
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, render_to_response, redirect
+from django.template import RequestContext
 
-from app.models import ToDoItem
-
-import json
 import requests
 
-# Create your views here.
-
-def login(username, token):
-
-    data = {'username': username, 'auth_token': token}
-    req = requests.post('http://auth.kronosad.com/api/check_token/', data)
-    if req.json()['message'] == 'Authentication Token is valid.':
-        return True
-    else:
-        return False
-
-def get_user_uuid(username):
-    data = {'username': username}
-    req = requests.post('http://auth.kronosad.com/api/get_user/' + username + '/', data)
-    return req.json()['uuid']
-
 # Regular Views
+from app.models import ToDoItem
+
 
 def index(request):
+    if request.user.is_authenticated():
+        return redirect('tasks')
+
     return render(request, 'app/index.html')
 
-def demo(request):
-    return render(request, 'app/demo.html')
+@login_required(login_url="/login/")
+def task_list(request):
+    tasks = ToDoItem.objects.filter(owner=request.user)
 
-# API methods
+    return render_to_response('app/tasks/tasks.html', {'tasks': tasks}, context_instance=RequestContext(request))
 
-# /api/items/
-@csrf_exempt
-def api_get_items(request):
-    username = request.POST.get('username', 'NONE')
-    token = request.POST.get('token', 'NONE')
-    if login(username, token):
-        if not ToDoItem.objects.filter(owner=get_user_uuid(username)):
-            return HttpResponse(json.dumps({'message': 'No Items found.'}), content_type="application/json", status=404)
-        else:
-            #data = serializers.serialize('python', ToDoItem.objects.filter(owner=get_user_uuid(username)))
-            #actual_data = [d['fields'] for d in data]
-            return HttpResponse(serializers.serialize('json', ToDoItem.objects.filter(owner=get_user_uuid(username))), content_type="application/json", status=200)
-    else:
-        return HttpResponse(json.dumps({'message': 'Authentication Server rejected token.'}), content_type="application/json", status=501)
+@login_required(login_url="/login/")
+def add_task(request):
 
-# /api/items/add/
-@csrf_exempt
-def api_add_item(request):
-    username = request.POST.get('username', 'NONE')
-    token = request.POST.get('token', 'NONE')
+    if request.POST:
+        if not request.POST.get('name'):
+            return render_to_response('app/tasks/add.html', {'name_req': True,
+                                                             'description': request.POST.get('description')},
+                                      context_instance=RequestContext(request))
 
-    name = request.POST.get('name')
-    description = request.POST.get('description', 'NONE')
-    completed = request.POST.get('completed', False)
-    color = request.POST.get('color', 'default')
-    category = request.POST.get('category', '')
-    print("Name of item: " + name)
-    if login(username, token):
-        if not name:
-            return HttpResponse(json.dumps({'message': 'Missing fields!'}), content_type="application/json", status=500)
-        owner = get_user_uuid(username)
-        item = ToDoItem()
-        item.owner = owner
-        item.name = name
-        item.description = description
-        item.completed = completed
-        item.color = color
-        item.category = category
-        item.save()
-        return HttpResponse(json.dumps({'message': 'Item saved.'}), content_type="application/json", status=200)
-    else:
-        return HttpResposne(json.dumps({'message': 'Authentication Server rejected token.'}), content_type="application/json", status=501)
+        task = ToDoItem(name=request.POST.get('name'), description=request.POST.get('description'), category=request.POST.get('category'), owner=request.user,
+                        color=request.POST.get('color'))
+        task.save()
 
-# /api/items/modify/
-@csrf_exempt
-def api_modify_item(request):
-    username = request.POST.get('username', 'NONE')
-    token = request.POST.get('token', 'NONE')
+        return redirect('tasks')
 
-    if login(username, token):
-        if request.POST.get('pk'):
-            items = ToDoItem.objects.filter(pk=request.POST.get('pk'))
-            if items.first():
-                i = items.first()
-                if i.owner == get_user_uuid(username):
-                    if request.POST.get('name'):
-                        i.name = request.POST.get('name')
-                        i.save()
-                    if request.POST.get('description'):
-                        i.description = request.POST.get('description')
-                        i.save()
-                    if request.POST.get('completed'):
-                        if request.POST.get('completed') == 'true':
-                            i.completed = True;
-                        else:
-                            i.completed = False;
-                        i.save()
-                    if request.POST.get('category'):
-                        i.category = request.POST.get('category')
-                        i.save()
-                    if request.POST.get('color'):
-                        i.color = request.POST.get('color')
-                        i.save()
-                    return HttpResponse(json.dumps({'message': 'Item saved.'}), content_type="application/json", status=200)
+    return render_to_response('app/tasks/add.html', context_instance=RequestContext(request))
+
+@login_required(login_url="/login/")
+def task_detail(request, task_id):
+    task = ToDoItem.objects.get(pk=task_id)
+
+    if task.owner == request.user:
+        if request.POST:
+            if request.POST.get('completed'):
+                if request.POST.get('completed') == 'on':
+                    task.completed = True
                 else:
-                    return HttpResponse(json.dumps({'message': 'No item found with that pk'}), content_type="application/json", status=403)
-            else:
-                return HttpResponse(json.dumps({'message': 'No item found with that pk'}), content_type="application/json", status=404)
-        else:
-            return HttpResponse(json.dumps({'message': 'No pk specified'}), content_type="application/json", status=500)
+                    task.completed = False
+
+            if request.POST.get('color'):
+                task.color = request.POST.get('color')
+
+            task.save()
+            return redirect('tasks')
+
+        return render_to_response('app/tasks/detail.html', {'task': task}, context_instance=RequestContext(request))
+
     else:
-        return HttpResponse(json.dumps({'message': 'Authentication Server rejected token.'}), content_type="application/json", status=501)
+        return redirect('tasks')
 
-# /api/items/delete/
-@csrf_exempt
-def api_delete_item(request):
-    username = request.POST.get('username', 'NONE')
-    token = request.POST.get('token', 'NONE')
+@login_required(login_url='/login/')
+def task_delete(request, task_id):
+    task = ToDoItem.objects.get(pk=task_id)
 
-    if login(username, token):
-        if request.POST.get('pk'):
-            items = ToDoItem.objects.filter(pk=request.POST.get('pk'))
-            if items.first():
-                i = items.first()
-                if i.owner == get_user_uuid(username):
-                    i.delete()
-                    return HttpResponse(json.dumps({'message': 'Item deleted.'}), content_type="application/json", status=200)
+    if task.owner == request.user:
+        task.delete()
+
+    return redirect('tasks')
+
+
+# Authentication Views
+def login_user(request):
+    state = ""
+    username = ''
+
+    if request.POST:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+
+                if not request.POST.get('next'):
+                    return redirect('index')
                 else:
-                    return HttpResponse(json.dumps({'message': 'No item found with that pk'}), content_type="application/json", status=403)
+                    return redirect(request.POST.get('next'))
             else:
-                return HttpResponse(json.dumps({'message': 'No item found with that pk'}), content_type="application/json", status=403)
-
+                state = "Error! Account is not active."
         else:
-            return HttpResponse(json.dumps({'message': 'No pk specified.'}), content_type="application/json", status=500)
+            state = "Your username and/or password was incorrect!"
+
+    return render_to_response('app/login.html', {'state': state, 'username': username},
+                              context_instance=RequestContext(request))
+
+def logout_user(request):
+    if request.user and request.user.is_authenticated():
+        logout(request)
+
+    return redirect('index')
+
+
+
+

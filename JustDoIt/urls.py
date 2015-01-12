@@ -2,15 +2,16 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'JustDoIt.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
-    url(r'^$', 'app.views.index'),
-    url(r'^demo/$', 'app.views.demo'),
+    url(r'^$', 'app.views.index', name='index'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'api/items/$', 'app.views.api_get_items'),
-    url(r'api/items/add/$', 'app.views.api_add_item'),
-    url(r'api/items/modify/$', 'app.views.api_modify_item'),
-    url(r'api/items/delete/$', 'app.views.api_delete_item'),
+
+    # Auth URLs
+    url(r'^login/$', 'app.views.login_user', name='login'),
+    url(r'^logout/$', 'app.views.logout_user', name='logout'),
+
+    url(r'^tasks/$', 'app.views.task_list', name='tasks'),
+    url(r'^tasks/add/$', 'app.views.add_task', name='add_task'),
+    url(r'^tasks/modify/(?P<task_id>\d)/$', 'app.views.task_detail', name='task_detail'),
+    url(r'^tasks/delete/(?P<task_id>\d)/$', 'app.views.task_delete', name='task_delete'),
+
 )

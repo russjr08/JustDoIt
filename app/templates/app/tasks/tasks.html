@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block content %}
+
+    <ol class="breadcrumb">
+        <li>Tasks</li>
+    </ol>
+
+    {% if tasks|length_is:0 %}
+        <div class="alert alert-success">
+            <p class="text-success">No tasks found. You're all done!</p>
+        </div>
+    {% else %}
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Task ID</th>
+                <th>Task Name</th>
+                <th>Task Description</th>
+                <th>Completion</th>
+                <th>Delete?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr class="{{ task.color }}">
+                    <td><a href="{% url 'task_detail' task.id %}">{{ task.id }}</a></td>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.description }}</td>
+                    <td><input type="checkbox" disabled {% if task.completed %} checked {% endif %} /></td>
+                    <td><button onclick="window.location = '{% url 'task_delete' task.id %}'" class="btn btn-danger">Delete!</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block links %}
+    <li><a href="{% url 'add_task' %}">Add Task</a></li>
+{% endblock %}
