@@ -5,9 +5,8 @@ from django.template import RequestContext
 
 import requests
 
-# Regular Views
 from app.models import ToDoItem
-
+# Regular Views
 
 def index(request):
     if request.user.is_authenticated():
@@ -17,8 +16,9 @@ def index(request):
 
 @login_required(login_url="/login/")
 def task_list(request):
+    
     tasks = ToDoItem.objects.filter(owner=request.user)
-
+    
     return render_to_response('app/tasks/tasks.html', {'tasks': tasks}, context_instance=RequestContext(request))
 
 @login_required(login_url="/login/")

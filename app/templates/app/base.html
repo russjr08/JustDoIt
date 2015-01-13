@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="{% static 'style/bootstrap.min.css' %}">
 
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    
+    <!-- This script adds the bootstrap-dark theme if its night time -->
+    <script type="text/javascript">var STATIC_URL = "{{ STATIC_URL|escapejs }}";</script>
+    <script src="{% static 'js/night-style.js' %}"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <!-- End Bootstrap import -->

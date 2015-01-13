@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 AUTHENTICATION_BACKENDS = ('app.KronosAuthentication.KronosRemoteUserBackend',)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.static',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
 )
